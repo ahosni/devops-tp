@@ -11,8 +11,8 @@ git clone https://github.com/spring-projects/spring-petclinic.git
 ## E02: Lancement de l'application 
 ### DEV
 1. Lancer l'application avec une base en memoire
-2. Lancer l'application avec le profil spring mysql `spring.profiles.active=mysql`, vous avez remarquer quoi ? 
-3. Créer un conteneur avec une base de donner mysql 
+2. Lancer l'application avec le profil spring mysql `spring.profiles.active=mysql`, vous avez remarqué quoi ? 
+3. Créer un conteneur avec une base de données mysql 
    - Faire une rechercher sur [Docker Hub](https://hub.docker.com/search?q=mysql) pour trouver la bonne image
 ```shell
 docker run -d --name mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw -p 3306:3306  ?
@@ -21,7 +21,7 @@ docker run -d --name mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw -p 3306:3306  ?
 
 ## E04: Simulation de la Prod
 1. Lancer une autre instance de la base de données qui ecoute sur le port `3307`
-2. Lancer l'application sur 
+2. Lancer une autre instance de l'application sur le port `8081`
 
 
 ## E05: Utiliser Docker compose
