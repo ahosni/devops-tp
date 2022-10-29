@@ -67,7 +67,7 @@ Runtime.getRuntime().addShutdownHook(new Thread(() -> {
 4. Ajouter une instruction `sleep` de 20s  et refaire le test.
 4. Refaire le test avec la commande `kill -9`
 5. Lancer l'application dans un conteneur puis arrêter le conteneur avec la commande `docker stop`
-6. Refaire le test  
+6. Refaire le test en changeant le temps d'attente avec l'option `--time`
 
 
 
