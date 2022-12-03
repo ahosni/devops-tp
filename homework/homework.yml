@@ -1,0 +1,46 @@
+version: '3.7'
+services:
+  nginx:
+    depends_on:
+      - petclinic
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    ports:
+      - 80:80
+      - 443:443
+    networks:
+      - front
+    volumes:
+      - nginx:/etc/nginx
+
+  petclinic:
+    depends_on:
+      mysql:
+        condition: service_healthy
+    image: spring/petclinic:3.7.0
+    networks:
+      - back
+      - front
+    environment:
+      - SPRING_PROFILES_ACTIVE=mysql
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql/petclinic
+
+  mysql:
+    image: mysql
+    networks:
+      - back
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=petclinic
+      - MYSQL_PASSWORD=petclinic
+      - MYSQL_DATABASE=petclinic
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+
+networks:
+  front: {}
+  back: {}
+
+volumes:
+  nginx: {}
