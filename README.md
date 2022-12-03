@@ -51,7 +51,7 @@ Au niveau de chaque environnement on doit avoir deux conteneurs, un conteneur po
 
 3. [Homework] Sécuriser l'accès à l'environnement de prod en ajoutant un reverse-proxy [nginx](https://www.nginx.com), le seul port qui doit être exposé à l'exterieur est le port 443(https) du reverse-proxy, les connexions vers le port 80 doivent être redirigées vers le port 443.
 
-> [Correction](./homework/homework.json)
+> [Correction](homework/homework.yml)
 
 ## E07: Vérifier les logs de l'application
 Vérifier les logs au niveau du conteneur docker
@@ -72,7 +72,7 @@ Runtime.getRuntime().addShutdownHook(new Thread(() -> {
 6. Refaire le test en changeant le temps d'attente avec l'option `--time`
 
 
-# TP : [Gitlab CI/CD](./gitlab.yaml)
+# TP : [Gitlab CI/CD](gitlab/gitlab.yaml)
 
 
 
