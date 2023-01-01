@@ -1,7 +1,12 @@
-version: "3.6"
+version: "3.7"
 services:
   gitlab:
     image: gitlab/gitlab-ee:latest
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 2048M
     ports:
       - "22:22"
       - "80:80"
@@ -18,33 +23,7 @@ services:
         target: /omnibus_config.rb
     secrets:
       - gitlab_root_password
-  gitlab-runner:
-    image: gitlab/gitlab-runner:alpine
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - gitlab-data-runner:/etc/gitlab-runner
-    deploy:
-      mode: replicated
-      replicas: 4
-  
-  register-runner:
-    restart: 'no'
-    image: gitlab/gitlab-runner:alpine
-    command:
-      - register
-      - --non-interactive
-      - --locked=false
-      - --name=docker-runner
-      - --executor=docker
-      - --url "http://gitlab/" 
-      - --registration-token "PROJECT_REGISTRATION_TOKEN"
-      - --description "docker-runner"
-      - --access-level="not_protected"
-      - --run-untagged="true"
-      - --docker-image alpine:latest
-    volumes:
-      - gitlab-data-runner:/etc/gitlab-runner
-      
+
 configs:
   gitlab:
     file: ./gitlab.rb
@@ -53,7 +32,6 @@ secrets:
     file: ./root_password.txt
 
 volumes:
- gitlab-data-runner:
- gitlab-data-opt:
- gitlab-data-log:
- gitlab-data-etc:
+  gitlab-data-opt:
+  gitlab-data-log:
+  gitlab-data-etc:

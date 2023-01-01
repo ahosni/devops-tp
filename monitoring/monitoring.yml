@@ -1,0 +1,56 @@
+version: "3.7"
+services:
+  prometheus:
+    networks:
+      - net
+    image: prom/prometheus
+    container_name: prometheus
+    volumes:
+      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - 9090:9090
+  grafana:
+    networks:
+      - net
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana-data:/var/lib/grafana
+  mysql:
+    image: mysql
+    networks:
+      - net
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=petclinic
+      - MYSQL_PASSWORD=petclinic
+      - MYSQL_DATABASE=petclinic
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+
+  petclinic:
+    depends_on:
+      mysql:
+        condition: service_healthy
+    image: spring/petclinic:3.7.0
+    networks:
+      - net
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=mysql
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql/petclinic
+    command:
+      - --management.endpoints.enabled-by-default=true
+      - --management.endpoints.web.exposure.include=prometheus
+      - --management.metrics.tags.application=petclinicApp
+      - --management.metrics.tags.instance=petclinicInstance
+
+volumes:
+  grafana-data:
+
+networks:
+  net: {}
+
+
